@@ -11,28 +11,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="3dp"
-            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:text="itsgoingd/clockwork"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
             >
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:background="@drawable/github"
+                android:layout_gravity="center_vertical"
+                >
 
-        </TextView>
+            </ImageView>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:text="itsgoingd/clockwork"
+                >
+
+            </TextView>
+
+        </LinearLayout>
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:text="Clockwork - php dev tools in your browser - server-side component"
@@ -42,16 +57,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_gravity="center_vertical"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:background="@drawable/star">
 
             </ImageView>
@@ -61,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="4.7k"
+                android:textSize="11dp"
                 android:textColor="@color/black"
                 />
             <TextView
@@ -69,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="PHP"
+                android:textSize="11dp"
                 android:textColor="@color/black"
                 />
             <TextView
@@ -77,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="MIT License"
+                android:textSize="11dp"
                 android:textColor="@color/black"
                 />
 

@@ -21,22 +21,31 @@
             android:layout_height="45dp"
             android:padding="3dp"
             android:iconifiedByDefault="false"
+            android:queryHint="Search Repositories"
             android:background="@drawable/round_corners"/>
 
     </LinearLayout>
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/linearProgressIndicator"
+        android:layout_width="match_parent"
+        app:indicatorColor="@color/black"
+        android:layout_marginRight="28dp"
+        android:layout_marginLeft="26dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"  />
 
-    <ListView
-        android:id="@+id/listviewsearch"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/search" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:smoothScrollbar="true"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8.0sp"
+        android:dividerHeight="10.0sp"
         >
     </ListView>
 </LinearLayout>
