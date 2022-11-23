@@ -17,17 +17,11 @@ public class Searchlist_adapter extends BaseAdapter {
     MainActivity mainActivity;
     ViewGit_list finalViewItem1;
 
-
-
     public Searchlist_adapter(List<Search_list> listValue, Context context, MainActivity mainActivity) {
         this.context = context;
         this.valueList = listValue;
         this.mainActivity = mainActivity;
     }
-
-
-
-
 
     @Override
     public int getCount() {
@@ -65,7 +59,6 @@ public class Searchlist_adapter extends BaseAdapter {
     {
         ViewGit_list viewGitList = null;
         Searchlist_adapter.position=position;
-
         if(convertView == null)
         {
             viewGitList = new ViewGit_list();
@@ -88,7 +81,6 @@ public class Searchlist_adapter extends BaseAdapter {
 
             finalViewItem1 = viewGitList;
             ViewGit_list finalViewItem = viewGitList;
-
         }
         else
         {
@@ -96,7 +88,6 @@ public class Searchlist_adapter extends BaseAdapter {
         }
         return convertView;
     }
-
 }
 
 class ViewGit_list {

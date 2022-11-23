@@ -6,13 +6,20 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,41 +40,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private String perpage = "5";
     private ListView listView;
     private List<Search_list> array_search_list = new ArrayList<>();
     private String search="";
-    int page = 1;
+    private int page = 1;
     private Searchlist_adapter adapter_main;
     private ProgressDialog progressDialog;
-    LinearProgressIndicator linearProgressIndicator;
+    private LinearProgressIndicator linearProgressIndicator;
+    private TextView git_textview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         listView = findViewById(R.id.listview);
+        git_textview = findViewById(R.id.git_textview);
+        SearchView simpleSearchView = findViewById(R.id.simpleSearchView);
         linearProgressIndicator = findViewById(R.id.linearProgressIndicator);
+
         linearProgressIndicator.setVisibility(View.GONE);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
+
         adapter_main =  new Searchlist_adapter(array_search_list, getBaseContext(), MainActivity.this);
 
-
-        SearchView simpleSearchView = (SearchView) findViewById(R.id.simpleSearchView); // inititate a search view
-
-        simpleSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose()
-            {
-                Toast.makeText(MainActivity.this, "Close", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
         simpleSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
+                git_textview.setVisibility(View.GONE);
                 array_search_list.clear();
                 adapter_main.notifyDataSetChanged();
                 progressDialog.show();
@@ -78,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-
+            public boolean onQueryTextChange(String newText)
+            {
                 return false;
             }
         });
@@ -168,9 +171,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter_main);
         listView.onRestoreInstanceState(state);
     }
-
-    public static String formatValue(double value) {
-
+    public static String formatValue(double value)
+    {
         try {
             int power;
             String suffix = " kmbt";
@@ -187,6 +189,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return  value+"";
     }
-
-
 }
