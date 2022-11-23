@@ -23,14 +23,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/oneside_round"
-
             android:padding="15dp"
             >
 
@@ -50,7 +48,6 @@
             app:indicatorColor="@color/black"
             android:layout_height="wrap_content"
             android:indeterminate="true"  />
-
 
         <ListView
             android:id="@+id/listview"

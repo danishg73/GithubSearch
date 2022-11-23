@@ -6,17 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -79,13 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 getdata(query,page+"");
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText)
             {
                 return false;
-            }
-        });
+            }});
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -130,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 progressDialog.dismiss();
                 linearProgressIndicator.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Api Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Call Limit Exceed/Api Error", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(stringRequest);
@@ -145,9 +137,26 @@ public class MainActivity extends AppCompatActivity {
                 Search_list searchList = new Search_list();
                 JSONObject obj = jsonArray.getJSONObject(i);
                 searchList.fullname = obj.getString("full_name").trim();
-                searchList.description = obj.getString("description").trim();
+                if(!obj.getString("description").trim().equals("null"))
+                {
+                    searchList.description = obj.getString("description").trim();
+                }
+                else
+                {
+                    searchList.description = "No Description Found";
+                }
+
                 searchList.rating = formatValue(Double.parseDouble(obj.getString("stargazers_count").trim()));
-                searchList.language = obj.getString("language").trim();
+
+                if(!obj.getString("language").trim().equals("null"))
+                {
+                    searchList.language = obj.getString("language").trim();
+                }
+                else
+                {
+                    searchList.language = "";
+                }
+
                 try
                 {
                     searchList.license = obj.getJSONObject("license").getString("name");
@@ -173,6 +182,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public static String formatValue(double value)
     {
+        if (value == 0)
+        {
+            return "0";
+        }
         try {
             int power;
             String suffix = " kmbt";
