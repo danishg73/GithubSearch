@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private LinearProgressIndicator linearProgressIndicator;
     private TextView git_textview;
+    private SearchView simpleSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listview);
         git_textview = findViewById(R.id.git_textview);
-        SearchView simpleSearchView = findViewById(R.id.simpleSearchView);
+        simpleSearchView = findViewById(R.id.simpleSearchView);
         linearProgressIndicator = findViewById(R.id.linearProgressIndicator);
 
         linearProgressIndicator.setVisibility(View.GONE);
@@ -64,17 +66,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                git_textview.setVisibility(View.GONE);
-                array_search_list.clear();
-                adapter_main.notifyDataSetChanged();
-                progressDialog.show();
-                page = 1;
-                search=query;
-                getdata(query,page+"");
+                if(isNetworkConnected())
+                {
+                    git_textview.setVisibility(View.GONE);
+                    array_search_list.clear();
+                    adapter_main.notifyDataSetChanged();
+                    progressDialog.show();
+                    page = 1;
+                    search=query;
+                    getdata(query,page+"");
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
                 return false;
             }
             @Override
-            public boolean onQueryTextChange(String newText)
+            public boolean onQueryTextChange(String query)
             {
                 return false;
             }});
@@ -83,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(array_search_list.get(position).html_url));
                 startActivity(browserIntent);
             }
@@ -90,13 +101,21 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int threshold = 1;
-                int count = listView.getCount();
-                if (scrollState == SCROLL_STATE_IDLE) {
-                    if (listView.getLastVisiblePosition() >= count - threshold  ) {
-                        linearProgressIndicator.setVisibility(View.VISIBLE);
-                        getdata(search,""+page++);
-                    }}
+                if(isNetworkConnected())
+                {
+                    int threshold = 1;
+                    int count = listView.getCount();
+                    if (scrollState == SCROLL_STATE_IDLE) {
+                        if (listView.getLastVisiblePosition() >= count - threshold  ) {
+                            linearProgressIndicator.setVisibility(View.VISIBLE);
+                            getdata(search,""+page++);
+                        }}
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
             }
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -156,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     searchList.language = "";
                 }
-
                 try
                 {
                     searchList.license = obj.getJSONObject("license").getString("name");
@@ -201,5 +219,10 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Format",e.toString());
         }
         return  value+"";
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }
